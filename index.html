@@ -16,24 +16,28 @@
 	<div class="kviz">
 		<!-- do něj přidat <div>y pro samotné držení otázky -->
 		
-		<div id="otazka">
+		<div id="moznosti">
 			<div id="poradi"><span>1</span>/3
 				</div>
-			<h2>Kdo je nejkrasnejsi?
-				</h2>
-			<img id="obrazek" src="obrazky/pivo.jpg">
-			<div id="moznosti">
-				<ul id="odpovedi">
-					<li id="odpoved-0" onclick="klik0()">Ledová královna</li>
-					<li id="odpoved-1" onclick="klik1()">Sněhurka</li>
-					<li id="odpoved-2" onclick="klik2()">Já, já jsem nejkrásnější!</li>
-				</ul>				
-			</div>
+			<div id="otazka"><h2>prvni
+				</h2></div>
+			<img id="obrazek" src="obrazky/moncicak.jpg">
+			<ul id="odpovedi" onclick="klik(event)">
+				<li id="odpoved-0">prvniO</li>
+				<li id="odpoved-1">druhaO</li>
+				<li id="odpoved-2">tretiO</li>
+			</ul>				
 		</div>
 	</div>
 	<!-- také nezapomenout na <div> pro výsledek a hodnocení -->
-	<div id="vysledek"></div>
-	<div id="hodnoceni"></div>
+	
+	<div class="vysledek">
+		<h2>Tvoje hodnoceni</h2>
+		<div id="hodnoceni">Ahoj, me to nefunguje...
+		</div>
+		<h2>uspesnost</h2>
+		<div id="uspech">bla bla, bude zmenene...</div>
+	</div>
 
 	<script src="main.js"></script>
 

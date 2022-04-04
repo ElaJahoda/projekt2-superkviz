@@ -1,9 +1,11 @@
 let kviz = document.querySelector('.kviz');
 let otazka = document.querySelector('#otazka');
 let moznosti = document.querySelector('#moznosti');
-let vysledek = document.querySelector('#vysledek');
+let vysledek = document.querySelector('.vysledek');
 let hodnoceni = document.querySelector('#hodnoceni');
+let uspech = document.querySelector('#uspech');
 let poradi = document.getElementById('poradi');
+let poradiSpan = document.querySelector('span');
 let otazkaText = document.querySelector('h2');
 let obrazekOtazky = document.getElementById('obrazek');  
 let odpovedi = document.querySelector('#odpovedi');
@@ -23,45 +25,33 @@ let poleOtazek = [
     {otazka: 'treti', obrazek: 'obrazky/pivo.jpg', odpovedi: ['prvniO', 'druhaO', 'tretiO'], vyherniIndex: 1,},
 ]
 
-function klik0() {
-    kontrolaOdpovedi(0, 0);
-    indexOtazky++;
-    document.querySelector('span').textContent++;   
-    otazkaText.textContent = poleOtazek[indexOtazky].otazka;
-    obrazekOtazky.src = poleOtazek[indexOtazky].obrazek;
-    odpoved0.textContent = poleOtazek[indexOtazky].odpovedi[0];
-    odpoved1.textContent = poleOtazek[indexOtazky].odpovedi[1];
-    odpoved2.textContent = poleOtazek[indexOtazky].odpovedi[2];
+function klik(event) {
+    if(poradiSpan.textContent <= 3) {
+        if (event.target.id === 'odpoved-0') {
+            kontrolaOdpovedi(indexOtazky, 0);}
+        if (event.target.id === 'odpoved-1') {
+            kontrolaOdpovedi(indexOtazky, 1);}
+        if (event.target.id === 'odpoved-2') {
+            kontrolaOdpovedi(indexOtazky, 2);}
+        novaOtazka();
+    } else {
+        console.log('konec');
+    }
 }
 
-function klik1() {
-    kontrolaOdpovedi(indexOtazky, 0);
-    indexOtazky++;
-    document.querySelector('span').textContent++;   
-    otazkaText.textContent = poleOtazek[indexOtazky].otazka;
-    obrazekOtazky.src = poleOtazek[indexOtazky].obrazek;
-    odpoved0.textContent = poleOtazek[indexOtazky].odpovedi[0];
-    odpoved1.textContent = poleOtazek[indexOtazky].odpovedi[1];
-    odpoved2.textContent = poleOtazek[indexOtazky].odpovedi[2];
+function novaOtazka () {
+    if(poradiSpan.textContent < 3) {
+        indexOtazky++;
+        poradiSpan.textContent++;   
+        otazkaText.textContent = poleOtazek[indexOtazky].otazka;
+        obrazekOtazky.src = poleOtazek[indexOtazky].obrazek;
+        odpoved0.textContent = poleOtazek[indexOtazky].odpovedi[0];
+        odpoved1.textContent = poleOtazek[indexOtazky].odpovedi[1];
+        odpoved2.textContent = poleOtazek[indexOtazky].odpovedi[2];
+    } else {
+        konec();
+    }
 }
-function klik2() {
-    kontrolaOdpovedi(indexOtazky, 0);
-    indexOtazky++;
-    document.querySelector('span').textContent++;   
-    otazkaText.textContent = poleOtazek[indexOtazky].otazka;
-    obrazekOtazky.src = poleOtazek[indexOtazky].obrazek;
-    odpoved0.textContent = poleOtazek[indexOtazky].odpovedi[0];
-    odpoved1.textContent = poleOtazek[indexOtazky].odpovedi[1];
-    odpoved2.textContent = poleOtazek[indexOtazky].odpovedi[2];
-}
-// SLO BY TAKE, PAK JEN JEDNA ONCLICK FUNKCE NA VSECHNY 3 ODPOVEDI
-// if (event.target.id === 'odpoved-0') {
-//     kontrolaOdpovedi(indexOtazky, 0);
-// } else if (event.target.id === 'odpoved-1') {
-//     kontrolaOdpovedi(indexOtazky, 1);
-// } else if (event.target.id === 'odpoved-2') {
-//     kontrolaOdpovedi(indexOtazky, 2);
-// }
 
 function kontrolaOdpovedi (x, y) {
     let i = poleOtazek[x].vyherniIndex;
@@ -72,4 +62,31 @@ function kontrolaOdpovedi (x, y) {
         kliknuteOdpovedi.push('0');
         console.log(kliknuteOdpovedi);
     }
+}
+
+function konec() {
+    kviz.style.display = 'none';
+    vysledek.style.display = 'block';
+    uspesnost();
+}
+
+function uspesnost() {
+    // console.log(hodnoceni.textContent)
+    if(kliknuteOdpovedi.length === soucetPole){
+        uspech.textContent = 'Spravne 3 otazky ze 3.';
+    } else if(soucetPole === 2) {
+        uspech.textContent = 'Spravne 2 otazky ze 3.';
+    } else if(soucetPole === 1) {
+        uspech.textContent = 'Spravne a otazku ze 3.';
+    } else if(soucetPole === 0) {
+        uspech.textContent = 'Vse spatne.';
+    }
+    // console.log(uspech.textContent)
+}
+
+function soucetPole () {
+    var sum = kliknuteOdpovedi.reduce(function(a, b){
+        return a + b;
+    }, 0);
+        console.log(sum);
 }
