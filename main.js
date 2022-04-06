@@ -20,9 +20,26 @@ let kliknuteOdpovedi = []
 let indexOtazky = 0;
 
 let poleOtazek = [
-    {otazka: 'prvni', obrazek: 'obrazky/moncicak.jpg', odpovedi: ['prvniO', 'druhaO', 'tretiO'], vyherniIndex: 2,},
-    {otazka: 'druha', obrazek: 'obrazky/ovoce.jpg', odpovedi: ['prvniO', 'druhaO', 'tretiO'], vyherniIndex: 0,},
-    {otazka: 'treti', obrazek: 'obrazky/pivo.jpg', odpovedi: ['prvniO', 'druhaO', 'tretiO'], vyherniIndex: 1,},
+    {otazka: 'Animovaný dětský televizní seriál Bing je...', 
+    obrazek: 'obrazky/moncicak.jpg', 
+    odpovedi: ['britského původu dle předloh knih Wilberta Vere Awdrya', 
+                'amerického původu. Autory jsou Tad Stones a Alan Zaslove.', 
+                'britského původu dle předlohy knih Teda Dewana.'], 
+    vyherniIndex: 2,
+    vysvetleni: ['Lokomotiva Tomáš', 'Rychlá rota', 'správně']
+},
+    {otazka: 'Která z postav do seriálu Bing nepatří?', 
+    obrazek: 'obrazky/ovoce.jpg', 
+    odpovedi: ['Annie a Clarabel', 'Flop', 'Gilly'], 
+    vyherniIndex: 0,
+    vysvetleni: ['Lokomotiva Tomáš', 'správně', 'správně'],
+},
+    {otazka: 'Jakou větou kočí každý díl seriálu?', 
+    obrazek: 'obrazky/pivo.jpg', 
+    odpovedi: ['Vstávat a cvičit. A proč? Protože je ráno.', 'To je Bingův svět.', 'Pospěš si Flope!'], 
+    vyherniIndex: 1,
+    vysvetleni: ['Králíci z klobouku', 'správně', 'První věta seriálu.'],
+},
 ]
 
 function klik(event) {
@@ -90,3 +107,4 @@ function soucetPole () {
     }, 0);
         console.log(sum);
 }
+
