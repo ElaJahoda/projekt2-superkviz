@@ -73,10 +73,10 @@ function novaOtazka () {
 function kontrolaOdpovedi (x, y) {
     let i = poleOtazek[x].vyherniIndex;
     if (i === y) {
-        kliknuteOdpovedi.push('1');
+        kliknuteOdpovedi.push(1);
         console.log(kliknuteOdpovedi);
     } else {
-        kliknuteOdpovedi.push('0');
+        kliknuteOdpovedi.push(0);
         console.log(kliknuteOdpovedi);
     }
 }
@@ -89,22 +89,20 @@ function konec() {
 
 function uspesnost() {
     // console.log(hodnoceni.textContent)
-    if(kliknuteOdpovedi.length === soucetPole){
+    if(kliknuteOdpovedi.length === soucetPole()){
         uspech.textContent = 'Spravne 3 otazky ze 3.';
-    } else if(soucetPole === 2) {
+    } else if(soucetPole() === 2) {
         uspech.textContent = 'Spravne 2 otazky ze 3.';
-    } else if(soucetPole === 1) {
-        uspech.textContent = 'Spravne a otazku ze 3.';
-    } else if(soucetPole === 0) {
+    } else if(soucetPole() === 1) {
+        uspech.textContent = 'Spravne 1 otazku ze 3.';
+    } else if(soucetPole() === 0) {
         uspech.textContent = 'Vse spatne.';
     }
-    // console.log(uspech.textContent)
 }
 
-function soucetPole () {
+function soucetPole() {
     var sum = kliknuteOdpovedi.reduce(function(a, b){
-        return a + b;
-    }, 0);
-        console.log(sum);
+        return a + b;}, 0);
+return sum;
 }
 
