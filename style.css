@@ -115,3 +115,23 @@ h1 {
 	font-size: 36px;
 	color: var(--cervena);
 }
+
+.hodnoceni-odpovedi {
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	list-style: none;
+}
+
+.hodnoceni-otazka {
+	margin: 20px 0 10px 0;
+	font-family: 'Bangers', cursive;
+	font-size: 26px;
+	line-height: 1.2;
+	text-align: left;
+	color: black;
+}
+
+#uspech {
+	margin: 20px 0 20px 0;
+}

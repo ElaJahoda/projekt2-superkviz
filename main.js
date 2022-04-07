@@ -16,7 +16,8 @@ let odpoved0 = document.querySelector('#odpoved-0');
 let odpoved1 = document.querySelector('#odpoved-1');
 let odpoved2 = document.querySelector('#odpoved-2');
 
-let kliknuteOdpovedi = []
+let kliknuteOdpovedi = [];
+let kliknuteOdpovediI = [];
 let indexOtazky = 0;
 
 let poleOtazek = [
@@ -30,7 +31,7 @@ let poleOtazek = [
 },
     {otazka: 'Která z postav do seriálu Bing nepatří?', 
     obrazek: 'obrazky/ovoce.jpg', 
-    odpovedi: ['Annie a Clarabel', 'Flop', 'Gilly'], 
+    odpovedi: ['Clarabel', 'Flop', 'Gilly'], 
     vyherniIndex: 0,
     vysvetleni: ['Lokomotiva Tomáš', 'správně', 'správně'],
 },
@@ -45,14 +46,15 @@ let poleOtazek = [
 function klik(event) {
     if(poradiSpan.textContent <= 3) {
         if (event.target.id === 'odpoved-0') {
+            kliknuteOdpovediI.push(0);
             kontrolaOdpovedi(indexOtazky, 0);}
         if (event.target.id === 'odpoved-1') {
+            kliknuteOdpovediI.push(1);
             kontrolaOdpovedi(indexOtazky, 1);}
         if (event.target.id === 'odpoved-2') {
+            kliknuteOdpovediI.push(2);
             kontrolaOdpovedi(indexOtazky, 2);}
         novaOtazka();
-    } else {
-        console.log('konec');
     }
 }
 
@@ -74,10 +76,8 @@ function kontrolaOdpovedi (x, y) {
     let i = poleOtazek[x].vyherniIndex;
     if (i === y) {
         kliknuteOdpovedi.push(1);
-        console.log(kliknuteOdpovedi);
     } else {
         kliknuteOdpovedi.push(0);
-        console.log(kliknuteOdpovedi);
     }
 }
 
@@ -85,18 +85,18 @@ function konec() {
     kviz.style.display = 'none';
     vysledek.style.display = 'block';
     uspesnost();
+    naplnHodnoceni();
 }
 
 function uspesnost() {
-    // console.log(hodnoceni.textContent)
     if(kliknuteOdpovedi.length === soucetPole()){
-        uspech.textContent = 'Spravne 3 otazky ze 3.';
+        uspech.textContent = 'Spravne 3 otazky ze ' + poradiSpan.textContent + '. Uspel/-a si z ' + procentaUspesnost() + ' %.';
     } else if(soucetPole() === 2) {
-        uspech.textContent = 'Spravne 2 otazky ze 3.';
+        uspech.textContent = 'Spravne 2 otazky ze ' + poradiSpan.textContent + '. Uspel/-a si z ' + procentaUspesnost() + ' %.';
     } else if(soucetPole() === 1) {
-        uspech.textContent = 'Spravne 1 otazku ze 3.';
+        uspech.textContent = 'Spravne 1 otazku ze ' + poradiSpan.textContent + '. Uspel/-a si z ' + procentaUspesnost() + ' %.';
     } else if(soucetPole() === 0) {
-        uspech.textContent = 'Vse spatne.';
+        uspech.textContent = 'Vse spatne. Uspel/-a si z ' + procentaUspesnost() + '%.';
     }
 }
 
@@ -106,3 +106,41 @@ function soucetPole() {
 return sum;
 }
 
+function procentaUspesnost() {
+    var procenta = Math.round((soucetPole() / kliknuteOdpovedi.length) * 100);
+    return procenta
+}
+
+function naplnHodnoceni() {
+    for (let i = 0; i < poleOtazek.length; i++) {
+        let a = i + 1;       
+        let y = kliknuteOdpovediI[i];
+        let z = poleOtazek[i].vyherniIndex;
+        let divHodnoceneOtazky = document.createElement('div');
+        divHodnoceneOtazky.className = 'divHodnoceneOtazky';
+
+        let otazkaH = document.createElement('ul');
+        otazkaH.className = 'otazkaH';
+        otazkaH.classList.add('hodnoceni-otazka');
+        otazkaH.textContent = a + '. ' + poleOtazek[i].otazka;
+
+        let zvolenaO = document.createElement('li');
+        zvolenaO.className = 'zvolenaO';
+        zvolenaO.classList.add('hodnoceni-odpovedi');
+        zvolenaO.textContent = 'Tvoje odpověď: ' + poleOtazek[i].odpovedi[y];
+
+        let spravnaO = document.createElement('li');
+        spravnaO.className = 'spravnaO';
+        spravnaO.classList.add('hodnoceni-odpovedi');
+        if(poleOtazek[i].odpovedi[y] === poleOtazek[i].odpovedi[z]){
+            spravnaO.textContent = 'To je SPRÁVNĚ.';
+        } else {
+            spravnaO.textContent = 'Správná odpověď: ' + poleOtazek[i].odpovedi[z];
+        }
+
+        hodnoceni.appendChild(divHodnoceneOtazky);
+        divHodnoceneOtazky.appendChild(otazkaH);
+        divHodnoceneOtazky.appendChild(zvolenaO);
+        divHodnoceneOtazky.appendChild(spravnaO);
+    }
+}
