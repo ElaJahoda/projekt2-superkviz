@@ -22,24 +22,21 @@ let indexOtazky = 0;
 
 let poleOtazek = [
     {otazka: 'Animovaný dětský televizní seriál Bing je...', 
-    obrazek: 'obrazky/moncicak.jpg', 
-    odpovedi: ['britského původu dle předloh knih Wilberta Vere Awdrya', 
-                'amerického původu. Autory jsou Tad Stones a Alan Zaslove.', 
-                'britského původu dle předlohy knih Teda Dewana.'], 
-    vyherniIndex: 2,
-    vysvetleni: ['Lokomotiva Tomáš', 'Rychlá rota', 'správně']
+    obrazek: 'obrazky/bing2.jpg', 
+    odpovedi: ['britského původu.', 
+                'amerického původu.', 
+                'čínského původu.'], 
+    vyherniIndex: 0,
 },
     {otazka: 'Která z postav do seriálu Bing nepatří?', 
-    obrazek: 'obrazky/ovoce.jpg', 
+    obrazek: 'obrazky/bing0.jpg', 
     odpovedi: ['Clarabel', 'Flop', 'Gilly'], 
     vyherniIndex: 0,
-    vysvetleni: ['Lokomotiva Tomáš', 'správně', 'správně'],
 },
-    {otazka: 'Jakou větou kočí každý díl seriálu?', 
-    obrazek: 'obrazky/pivo.jpg', 
-    odpovedi: ['Vstávat a cvičit. A proč? Protože je ráno.', 'To je Bingův svět.', 'Pospěš si Flope!'], 
+    {otazka: 'Jakou větou končí každý díl seriálu?', 
+    obrazek: 'obrazky/bing1.jpg', 
+    odpovedi: ['Vstávat a cvičit.', 'To je Bingův svět.', 'Pospěš si Flope!'], 
     vyherniIndex: 1,
-    vysvetleni: ['Králíci z klobouku', 'správně', 'První věta seriálu.'],
 },
 ]
 
@@ -90,13 +87,13 @@ function konec() {
 
 function uspesnost() {
     if(kliknuteOdpovedi.length === soucetPole()){
-        uspech.textContent = 'Spravne 3 otazky ze ' + poradiSpan.textContent + '. Uspel/-a si z ' + procentaUspesnost() + ' %.';
+        uspech.textContent = 'Správně 3 otázky ze ' + poradiSpan.textContent + '. Úspěšnost ' + procentaUspesnost() + ' %.';
     } else if(soucetPole() === 2) {
-        uspech.textContent = 'Spravne 2 otazky ze ' + poradiSpan.textContent + '. Uspel/-a si z ' + procentaUspesnost() + ' %.';
+        uspech.textContent = 'Správně 2 otázky ze ' + poradiSpan.textContent + '. Úspěšnost ' + procentaUspesnost() + ' %.';
     } else if(soucetPole() === 1) {
-        uspech.textContent = 'Spravne 1 otazku ze ' + poradiSpan.textContent + '. Uspel/-a si z ' + procentaUspesnost() + ' %.';
+        uspech.textContent = 'Správně 1 otázku ze ' + poradiSpan.textContent + '. Úspěšnost ' + procentaUspesnost() + ' %.';
     } else if(soucetPole() === 0) {
-        uspech.textContent = 'Vse spatne. Uspel/-a si z ' + procentaUspesnost() + '%.';
+        uspech.textContent = 'Vše špatně. Úspěšnost ' + procentaUspesnost() + '%.';
     }
 }
 
