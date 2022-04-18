@@ -1,23 +1,14 @@
 let kviz = document.querySelector('.kviz');
-let otazka = document.querySelector('#otazka');
-let moznosti = document.querySelector('#moznosti');
 let vysledek = document.querySelector('.vysledek');
 let hodnoceni = document.querySelector('#hodnoceni');
 let uspech = document.querySelector('#uspech');
 let poradi = document.getElementById('poradi');
-let poradiSpan = document.querySelector('span');
-let otazkaText = document.querySelector('h2');
+let otazkaText = document.querySelector('#otazka');
 let obrazekOtazky = document.getElementById('obrazek');  
 let odpovedi = document.querySelector('#odpovedi');
-// let odpoved0 = document.querySelector('li[data-odpoved="0"]'); funkční zápis pro atribut v elementu <li data-odpoved="0">
-// let odpoved1 = document.querySelector('li[data-odpoved="1"]');
-// let odpoved2 = document.querySelector('li[data-odpoved="2"]');
-let odpoved0 = document.querySelector('#odpoved-0');
-let odpoved1 = document.querySelector('#odpoved-1');
-let odpoved2 = document.querySelector('#odpoved-2');
 
 let kliknuteOdpovedi = [];
-let kliknuteOdpovediI = [];
+let spravneOdpovedi = 0;
 let indexOtazky = 0;
 
 let poleOtazek = [
@@ -40,41 +31,35 @@ let poleOtazek = [
 },
 ]
 
-function klik(event) {
-    if(poradiSpan.textContent <= 3) {
-        if (event.target.id === 'odpoved-0') {
-            kliknuteOdpovediI.push(0);
-            kontrolaOdpovedi(indexOtazky, 0);}
-        if (event.target.id === 'odpoved-1') {
-            kliknuteOdpovediI.push(1);
-            kontrolaOdpovedi(indexOtazky, 1);}
-        if (event.target.id === 'odpoved-2') {
-            kliknuteOdpovediI.push(2);
-            kontrolaOdpovedi(indexOtazky, 2);}
-        novaOtazka();
-    }
-}
-
-function novaOtazka () {
-    if(poradiSpan.textContent < 3) {
-        indexOtazky++;
-        poradiSpan.textContent++;   
+function novaOtazka() {
+        poradi.textContent = `otazka ${indexOtazky + 1} y ${poleOtazek.length}`;
         otazkaText.textContent = poleOtazek[indexOtazky].otazka;
         obrazekOtazky.src = poleOtazek[indexOtazky].obrazek;
-        odpoved0.textContent = poleOtazek[indexOtazky].odpovedi[0];
-        odpoved1.textContent = poleOtazek[indexOtazky].odpovedi[1];
-        odpoved2.textContent = poleOtazek[indexOtazky].odpovedi[2];
+        for (i = 0; i < poleOtazek[indexOtazky].odpovedi.length; i++) {
+            let odpovedList = document.createElement('li');
+            odpovedList.dataset.odpoved = i;
+            odpovedList.textContent = poleOtazek[indexOtazky].odpovedi[i];
+            odpovedi.appendChild(odpovedList);
+        }
+}
+novaOtazka()
+
+odpovedi.addEventListener('click', klik);
+
+function klik(event) {
+    console.log(event);
+    let kliknutaOdpoved = event.target.dataset.odpoved;
+    kliknuteOdpovedi.push(parseInt(kliknutaOdpoved));
+    if(kliknuteOdpovedi[indexOtazky] === poleOtazek[indexOtazky].vyherniIndex) {
+        spravneOdpovedi++;
+    }
+    indexOtazky++;
+    if(indexOtazky < poleOtazek.length) {
+        let listOdpovediPole = odpovedi.querySelectorAll('li');
+        listOdpovediPole.forEach((element) => element.remove());
+        novaOtazka();
     } else {
         konec();
-    }
-}
-
-function kontrolaOdpovedi (x, y) {
-    let i = poleOtazek[x].vyherniIndex;
-    if (i === y) {
-        kliknuteOdpovedi.push(1);
-    } else {
-        kliknuteOdpovedi.push(0);
     }
 }
 
@@ -86,32 +71,19 @@ function konec() {
 }
 
 function uspesnost() {
-    if(kliknuteOdpovedi.length === soucetPole()){
-        uspech.textContent = 'Správně 3 otázky ze ' + poradiSpan.textContent + '. Úspěšnost ' + procentaUspesnost() + ' %.';
-    } else if(soucetPole() === 2) {
-        uspech.textContent = 'Správně 2 otázky ze ' + poradiSpan.textContent + '. Úspěšnost ' + procentaUspesnost() + ' %.';
-    } else if(soucetPole() === 1) {
-        uspech.textContent = 'Správně 1 otázku ze ' + poradiSpan.textContent + '. Úspěšnost ' + procentaUspesnost() + ' %.';
-    } else if(soucetPole() === 0) {
-        uspech.textContent = 'Vše špatně. Úspěšnost ' + procentaUspesnost() + '%.';
-    }
-}
-
-function soucetPole() {
-    var sum = kliknuteOdpovedi.reduce(function(a, b){
-        return a + b;}, 0);
-return sum;
+        uspech.textContent = `Správně ${spravneOdpovedi} otázky ze ${poleOtazek.length}. Úspěšnost ${procentaUspesnost()} %.`;
 }
 
 function procentaUspesnost() {
-    var procenta = Math.round((soucetPole() / kliknuteOdpovedi.length) * 100);
+    var procenta = Math.round((spravneOdpovedi / poleOtazek.length) * 100);
     return procenta
 }
 
 function naplnHodnoceni() {
+    console.log(kliknuteOdpovedi);
     for (let i = 0; i < poleOtazek.length; i++) {
         let a = i + 1;       
-        let y = kliknuteOdpovediI[i];
+        let y = kliknuteOdpovedi[i];
         let z = poleOtazek[i].vyherniIndex;
         let divHodnoceneOtazky = document.createElement('div');
         divHodnoceneOtazky.className = 'divHodnoceneOtazky';
@@ -119,20 +91,20 @@ function naplnHodnoceni() {
         let otazkaH = document.createElement('ul');
         otazkaH.className = 'otazkaH';
         otazkaH.classList.add('hodnoceni-otazka');
-        otazkaH.textContent = a + '. ' + poleOtazek[i].otazka;
+        otazkaH.textContent = `${a}. ${poleOtazek[i].otazka}`;
 
         let zvolenaO = document.createElement('li');
         zvolenaO.className = 'zvolenaO';
         zvolenaO.classList.add('hodnoceni-odpovedi');
-        zvolenaO.textContent = 'Tvoje odpověď: ' + poleOtazek[i].odpovedi[y];
+        zvolenaO.textContent = `Tvoje odpověď: ${poleOtazek[i].odpovedi[y]}`;
 
         let spravnaO = document.createElement('li');
         spravnaO.className = 'spravnaO';
         spravnaO.classList.add('hodnoceni-odpovedi');
         if(poleOtazek[i].odpovedi[y] === poleOtazek[i].odpovedi[z]){
-            spravnaO.textContent = 'To je SPRÁVNĚ.';
+            spravnaO.textContent = `To je SPRÁVNĚ.`;
         } else {
-            spravnaO.textContent = 'Správná odpověď: ' + poleOtazek[i].odpovedi[z];
+            spravnaO.textContent = `Správná odpověď: ${poleOtazek[i].odpovedi[z]}`;
         }
 
         hodnoceni.appendChild(divHodnoceneOtazky);
